@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global View - Interactive 3D Earth</title>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="header">
+      <h1 class="title">Global View</h1>
+      <div class="status-bar">
+        <span class="status-dot"></span>
+        <span class="status-text">LIFE TRACKING</span>
+        <span class="latency">153 ms</span>
+      </div>
+    </header>
+
+    <div class="sidebar-left">
+      <div class="menu-items">
+        <button class="menu-btn active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
+        </button>
+        <button class="menu-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </button>
+        <button class="menu-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/>
+          </svg>
+        </button>
+        <button class="menu-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 20V10"/>
+            <path d="M18 20V4"/>
+            <path d="M6 20v-6"/>
+          </svg>
+        </button>
+        <button class="menu-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </button>
+        <button class="menu-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <main class="main-content">
+      <div id="earth-container"></div>
+      
+      <div class="controls">
+        <button class="view-btn active" data-view="3d">3D</button>
+        <button class="view-btn" data-view="2d">2D</button>
+      </div>
+
+      <div class="zoom-controls">
+        <span class="zoom-label">Zoom</span>
+        <button class="zoom-btn" data-action="in">+</button>
+        <button class="zoom-btn" data-action="out">-</button>
+        <button class="zoom-btn reset" data-action="reset">⟲</button>
+      </div>
+
+      <div class="orbit-line"></div>
+      <div class="satellite-marker">
+        <div class="satellite-icon">○</div>
+        <span class="satellite-label">JL-746</span>
+      </div>
+    </main>
+
+    <aside class="sidebar-right">
+      <div class="stats-panel">
+        <h2 class="stats-title">Main Statistics</h2>
+        <div class="stat-item">
+          <span class="stat-label">Monthly Delivered</span>
+          <div class="stat-value">1021</div>
+          <span class="stat-change positive">+32%</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Yearly Delivered</span>
+          <div class="stat-value">1021</div>
+          <span class="stat-change positive">+32%</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Yearly Delivered</span>
+          <div class="stat-value">4603</div>
+          <span class="stat-change positive">+12%</span>
+        </div>
+      </div>
+    </aside>
+
+    <div class="info-panel">
+      <h3>AI-Powered</h3>
+      <p>Plan Your Route with AI Now</p>
+      <button class="info-btn">HOW IT WORKS</button>
+      <div class="coordinates">
+        <span>X: 27.037495</span>
+        <span>X: 27.971495</span>
+        <span>Y: 27.971891</span>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="timeline">
+        <button class="timeline-btn">⏸</button>
+        <span class="timeline-time">0:05 / 0:23</span>
+        <input type="range" class="timeline-slider" min="0" max="100" value="21">
+      </div>
+      <div class="footer-actions">
+        <button class="action-btn">Activities & Risk</button>
+      </div>
+    </footer>
+
+    <div class="user-profile">
+      <div class="user-avatar">E</div>
+      <span class="user-name">Evan H.</span>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
