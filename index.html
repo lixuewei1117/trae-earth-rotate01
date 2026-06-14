@@ -17,41 +17,65 @@
       </div>
     </header>
 
+    <!-- Top-left arrow -->
+    <div class="top-left-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="theme-toggle">
+      <button class="theme-btn active" aria-label="Night mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+      </button>
+      <button class="theme-btn" aria-label="Day mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+    </div>
+
     <div class="sidebar-left">
       <div class="menu-items">
-        <button class="menu-btn active">
+        <button class="menu-btn active" title="Global View">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
           </svg>
         </button>
-        <button class="menu-btn">
+        <button class="menu-btn has-badge" title="Layers">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
           </svg>
+          <span class="menu-badge"></span>
         </button>
-        <button class="menu-btn">
+        <button class="menu-btn" title="History">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="7" height="7"/>
-            <rect x="14" y="3" width="7" height="7"/>
-            <rect x="14" y="14" width="7" height="7"/>
-            <rect x="3" y="14" width="7" height="7"/>
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
           </svg>
         </button>
-        <button class="menu-btn">
+        <button class="menu-btn" title="Profile">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 20V10"/>
-            <path d="M18 20V4"/>
-            <path d="M6 20v-6"/>
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
           </svg>
         </button>
-        <button class="menu-btn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-        </button>
-        <button class="menu-btn">
+      </div>
+
+      <div class="menu-bottom">
+        <button class="menu-btn" title="Settings">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+          </svg>
+        </button>
+        <button class="menu-btn" title="Expand">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/>
           </svg>
         </button>
       </div>
@@ -59,54 +83,70 @@
 
     <main class="main-content">
       <div id="earth-container"></div>
-      
+
       <div class="controls">
-        <button class="view-btn active" data-view="3d">3D</button>
-        <button class="view-btn" data-view="2d">2D</button>
+        <button class="view-btn active" data-view="3d">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          3D
+        </button>
+        <button class="view-btn" data-view="2d">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+            <path d="M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/>
+          </svg>
+          2D
+        </button>
       </div>
 
       <div class="zoom-controls">
         <span class="zoom-label">Zoom</span>
-        <button class="zoom-btn" data-action="in">+</button>
-        <button class="zoom-btn" data-action="out">-</button>
-        <button class="zoom-btn reset" data-action="reset">⟲</button>
+        <div class="zoom-row">
+          <button class="zoom-btn" data-action="in">+</button>
+          <span class="zoom-value" id="zoom-in-value">1.2x</span>
+        </div>
+        <div class="zoom-row">
+          <button class="zoom-btn" data-action="out">-</button>
+          <span class="zoom-value" id="zoom-out-value">0.8x</span>
+        </div>
+        <div class="zoom-row">
+          <button class="zoom-btn reset" data-action="reset">⟲</button>
+        </div>
       </div>
 
       <div class="orbit-line"></div>
       <div class="satellite-marker">
-        <div class="satellite-icon">○</div>
+        <div class="satellite-icon"></div>
         <span class="satellite-label">JL-746</span>
       </div>
     </main>
 
     <aside class="sidebar-right">
       <div class="stats-panel">
-        <h2 class="stats-title">Main Statistics</h2>
+        <h2 class="stats-title">Main<br>Statistics</h2>
         <div class="stat-item">
           <span class="stat-label">Monthly Delivered</span>
-          <div class="stat-value">1021</div>
-          <span class="stat-change positive">+32%</span>
+          <div class="stat-row">
+            <div class="stat-value">1021</div>
+            <span class="stat-change positive">+32%</span>
+          </div>
         </div>
         <div class="stat-item">
           <span class="stat-label">Yearly Delivered</span>
-          <div class="stat-value">1021</div>
-          <span class="stat-change positive">+32%</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">Yearly Delivered</span>
-          <div class="stat-value">4603</div>
-          <span class="stat-change positive">+12%</span>
+          <div class="stat-row">
+            <div class="stat-value">4603</div>
+            <span class="stat-change positive">+12%</span>
+          </div>
         </div>
       </div>
     </aside>
 
     <div class="info-panel">
       <h3>AI-Powered</h3>
-      <p>Plan Your Route with AI Now</p>
+      <p>Plan Your<br>Route with<br>AI Now <span class="sparkle">✦</span></p>
       <button class="info-btn">HOW IT WORKS</button>
       <div class="coordinates">
         <span>X: 27.037495</span>
-        <span>X: 27.971495</span>
         <span>Y: 27.971891</span>
       </div>
     </div>
@@ -118,13 +158,22 @@
         <input type="range" class="timeline-slider" min="0" max="100" value="21">
       </div>
       <div class="footer-actions">
-        <button class="action-btn">Activities & Risk</button>
       </div>
     </footer>
 
     <div class="user-profile">
       <div class="user-avatar">E</div>
       <span class="user-name">Evan H.</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-chevron">
+        <path d="M6 9l6 6 6-6"/>
+      </svg>
+    </div>
+
+    <div class="notification-bell">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/>
+      </svg>
+      <span class="bell-badge"></span>
     </div>
   </div>
 
