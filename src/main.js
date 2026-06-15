@@ -108,17 +108,18 @@ class EarthVisualization {
     const geometry = new THREE.SphereGeometry(1, 128, 128);
     const loader = new THREE.TextureLoader();
 
-    // 纹理
-    const dayTexture = loader.load('/textures/planets/earth_day_4096.jpg');
+    // 纹理 (使用 BASE_URL 兼容 GitHub Pages 部署)
+    const baseUrl = import.meta.env.BASE_URL;
+    const dayTexture = loader.load(baseUrl + 'textures/planets/earth_day_4096.jpg');
     dayTexture.colorSpace = THREE.SRGBColorSpace;
     dayTexture.anisotropy = 8;
 
-    const nightTexture = loader.load('/textures/planets/earth_night_4096.jpg');
+    const nightTexture = loader.load(baseUrl + 'textures/planets/earth_night_4096.jpg');
     nightTexture.colorSpace = THREE.SRGBColorSpace;
     nightTexture.anisotropy = 8;
 
     const brcTexture = loader.load(
-      '/textures/planets/earth_bump_roughness_clouds_4096.jpg'
+      baseUrl + 'textures/planets/earth_bump_roughness_clouds_4096.jpg'
     );
     brcTexture.anisotropy = 8;
 
