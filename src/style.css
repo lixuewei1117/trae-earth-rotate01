@@ -372,56 +372,6 @@ body {
 
 /* ─── Orbit & Satellite ──────────────────────────── */
 
-.orbit-line {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 500px;
-  height: 500px;
-  border: 1px dashed rgba(0, 212, 255, 0.2);
-  border-radius: 50%;
-  transform: translate(-50%, -50%) rotateX(70deg);
-  z-index: 50;
-  pointer-events: none;
-  animation: orbit-rotate 20s linear infinite;
-}
-
-@keyframes orbit-rotate {
-  from { transform: translate(-50%, -50%) rotateX(70deg) rotateZ(0deg); }
-  to { transform: translate(-50%, -50%) rotateX(70deg) rotateZ(360deg); }
-}
-
-.satellite-marker {
-  position: absolute;
-  top: 20%;
-  left: 35%;
-  z-index: 51;
-  pointer-events: none;
-  animation: satellite-orbit 20s linear infinite;
-}
-
-@keyframes satellite-orbit {
-  from { transform: rotate(0deg) translateX(200px) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(200px) rotate(-360deg); }
-}
-
-.satellite-icon {
-  width: 8px;
-  height: 8px;
-  background: var(--accent-blue);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--accent-blue), 0 0 20px var(--accent-blue-glow);
-}
-
-.satellite-label {
-  position: absolute;
-  left: 14px;
-  top: -6px;
-  font-size: 0.65rem;
-  color: var(--accent-blue);
-  white-space: nowrap;
-  font-weight: 500;
-}
 
 /* ─── Sidebar Right / Stats Panel ────────────────── */
 
@@ -471,10 +421,11 @@ body {
 }
 
 .stat-value {
-  font-size: 2.2rem;
-  font-weight: 300;
+  font-size: 1.55rem;
+  font-weight: 400;
   color: var(--text-primary);
   line-height: 1;
+  letter-spacing: 0.02em;
 }
 
 .stat-change {
@@ -814,10 +765,6 @@ body.light-mode .zoom-btn:hover {
 }
 
 /* --- Orbit & Satellite --- */
-body.light-mode .orbit-line {
-  border-color: rgba(0, 102, 204, 0.25);
-}
-
 /* --- Notification Bell --- */
 body.light-mode .notification-bell {
   background: rgba(0, 0, 0, 0.04);
@@ -896,7 +843,7 @@ body.light-mode .info-btn {
   }
 
   .stat-value {
-    font-size: 1.5rem;
+    font-size: 1.15rem;
   }
 
   .info-panel {
@@ -919,17 +866,4 @@ body.light-mode .info-btn {
     width: 120px;
   }
 
-  .orbit-line {
-    width: 300px;
-    height: 300px;
-  }
-
-  .satellite-marker {
-    animation: satellite-orbit 15s linear infinite;
-  }
-
-  @keyframes satellite-orbit {
-    from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
-    to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
-  }
 }

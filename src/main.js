@@ -16,6 +16,9 @@ class EarthVisualization {
     this.atmosphere = null;
     this.stars = null;
     this.markerGroup = null;
+    this.satelliteGroup = null;
+    this.satelliteRecords = [];
+    this.satelliteStartTime = 0;
 
     this.isAutoRotating = true;
     this.autoRotationSpeed = 0.002;
@@ -84,6 +87,7 @@ class EarthVisualization {
 
     // ─── 城市标记 ──────────────────────────────
     this.createMarkers();
+    this.createFengyunSatellites();
 
     // ─── OrbitControls ─────────────────────────
     this.setupControls();
@@ -344,6 +348,234 @@ class EarthVisualization {
   //  OrbitControls（保留原配置）
   // ═══════════════════════════════════════════════
 
+  createFengyunSatellites() {
+    this.satelliteGroup = new THREE.Group();
+    this.satelliteRecords = [];
+    this.satelliteStartTime = performance.now();
+
+    const satellites = [
+      {
+        name: 'FY-4A',
+        role: 'Geostationary',
+        color: 0x00d4ff,
+        orbitRadius: 2.05,
+        inclination: 0,
+        raan: 0,
+        speed: 0,
+        phase: 0,
+        fixedLng: 104.7,
+        size: 0.045,
+      },
+      {
+        name: 'FY-3E',
+        role: 'Dawn-Dusk SSO',
+        color: 0xf8d66d,
+        orbitRadius: 1.24,
+        inclination: 98.7,
+        raan: 26,
+        speed: 0.32,
+        phase: Math.PI * 0.2,
+        size: 0.032,
+      },
+      {
+        name: 'FY-3G',
+        role: 'Precipitation Orbit',
+        color: 0x42f5b6,
+        orbitRadius: 1.14,
+        inclination: 50,
+        raan: -38,
+        speed: 0.44,
+        phase: Math.PI * 1.1,
+        size: 0.03,
+      },
+    ];
+
+    satellites.forEach((satellite) => {
+      this.satelliteGroup.add(this.createOrbitLine(satellite));
+
+      const satelliteObject = this.createSatelliteObject(satellite);
+      satelliteObject.add(this.createSatelliteLabel(satellite));
+      this.satelliteGroup.add(satelliteObject);
+
+      this.satelliteRecords.push({
+        ...satellite,
+        object: satelliteObject,
+      });
+    });
+
+    this.scene.add(this.satelliteGroup);
+    this.updateFengyunSatellites(performance.now());
+  }
+
+  createOrbitLine(satellite) {
+    const points = [];
+    const segments = 256;
+    for (let i = 0; i <= segments; i++) {
+      const angle = (i / segments) * Math.PI * 2;
+      points.push(this.getOrbitRingPosition(satellite, angle));
+    }
+
+    const curve = new THREE.CatmullRomCurve3(points, true);
+    const tubeRadius = satellite.name === 'FY-4A' ? 0.0013 : 0.0011;
+    const ringGroup = new THREE.Group();
+
+    const ringGeometry = new THREE.TubeGeometry(curve, segments, tubeRadius, 8, true);
+    const ringMaterial = new THREE.MeshBasicMaterial({
+      color: satellite.color,
+      transparent: true,
+      opacity: satellite.name === 'FY-4A' ? 0.14 : 0.12,
+      depthWrite: false,
+    });
+    ringGroup.add(new THREE.Mesh(ringGeometry, ringMaterial));
+
+    const glowGeometry = new THREE.TubeGeometry(curve, segments, tubeRadius * 2.8, 8, true);
+    const glowMaterial = new THREE.MeshBasicMaterial({
+      color: satellite.color,
+      transparent: true,
+      opacity: satellite.name === 'FY-4A' ? 0.025 : 0.018,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+    ringGroup.add(new THREE.Mesh(glowGeometry, glowMaterial));
+
+    return ringGroup;
+  }
+
+  createSatelliteObject(satellite) {
+    const group = new THREE.Group();
+    const body = new THREE.Mesh(
+      new THREE.SphereGeometry(satellite.size, 16, 16),
+      new THREE.MeshBasicMaterial({ color: satellite.color })
+    );
+    group.add(body);
+
+    const panelMaterial = new THREE.MeshBasicMaterial({
+      color: 0x8cc8ff,
+      transparent: true,
+      opacity: 0.85,
+    });
+    const panelGeometry = new THREE.BoxGeometry(
+      satellite.size * 2.8,
+      satellite.size * 0.12,
+      satellite.size * 0.7
+    );
+    const leftPanel = new THREE.Mesh(panelGeometry, panelMaterial);
+    const rightPanel = new THREE.Mesh(panelGeometry, panelMaterial);
+    leftPanel.position.x = -satellite.size * 2.1;
+    rightPanel.position.x = satellite.size * 2.1;
+    group.add(leftPanel, rightPanel);
+
+    const glow = new THREE.Mesh(
+      new THREE.SphereGeometry(satellite.size * 1.7, 16, 16),
+      new THREE.MeshBasicMaterial({
+        color: satellite.color,
+        transparent: true,
+        opacity: 0.16,
+        depthWrite: false,
+      })
+    );
+    group.add(glow);
+
+    if (satellite.name === 'FY-4A') {
+      const linkGeometry = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(0, 0, -satellite.orbitRadius + 1.02),
+      ]);
+      const link = new THREE.Line(
+        linkGeometry,
+        new THREE.LineBasicMaterial({
+          color: satellite.color,
+          transparent: true,
+          opacity: 0.35,
+        })
+      );
+      group.add(link);
+    }
+
+    return group;
+  }
+
+  createSatelliteLabel(satellite) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 160;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = '600 42px Inter, Arial, sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(satellite.name, 28, 58);
+    ctx.font = '500 24px Inter, Arial, sans-serif';
+    ctx.fillStyle = `#${satellite.color.toString(16).padStart(6, '0')}`;
+    ctx.fillText(satellite.role, 28, 96);
+    ctx.globalAlpha = 0.45;
+    ctx.strokeStyle = `#${satellite.color.toString(16).padStart(6, '0')}`;
+    ctx.beginPath();
+    ctx.moveTo(28, 118);
+    ctx.lineTo(300, 118);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    const textureMap = new THREE.CanvasTexture(canvas);
+    textureMap.colorSpace = THREE.SRGBColorSpace;
+    const sprite = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        map: textureMap,
+        transparent: true,
+        depthTest: false,
+        depthWrite: false,
+      })
+    );
+    sprite.position.set(0.18, 0.11, 0);
+    sprite.scale.set(0.42, 0.13, 1);
+    return sprite;
+  }
+
+  getOrbitRingPosition(satellite, angle) {
+    const position = new THREE.Vector3(
+      Math.cos(angle) * satellite.orbitRadius,
+      0,
+      Math.sin(angle) * satellite.orbitRadius
+    );
+    position.applyAxisAngle(
+      new THREE.Vector3(1, 0, 0),
+      THREE.MathUtils.degToRad(satellite.inclination)
+    );
+    position.applyAxisAngle(
+      new THREE.Vector3(0, 1, 0),
+      THREE.MathUtils.degToRad(satellite.raan)
+    );
+    return position;
+  }
+
+  getSatellitePosition(satellite, angle) {
+    if (satellite.fixedLng !== undefined) {
+      return this.getLatLngPosition(0, satellite.fixedLng, satellite.orbitRadius);
+    }
+
+    return this.getOrbitRingPosition(satellite, angle);
+  }
+
+  getLatLngPosition(lat, lng, radius) {
+    const phi = THREE.MathUtils.degToRad(90 - lat);
+    const theta = THREE.MathUtils.degToRad(lng + 180);
+    return new THREE.Vector3(
+      -(radius * Math.sin(phi) * Math.cos(theta)),
+      radius * Math.cos(phi),
+      radius * Math.sin(phi) * Math.sin(theta)
+    );
+  }
+
+  updateFengyunSatellites(now) {
+    if (!this.satelliteRecords.length) return;
+
+    const elapsed = (now - this.satelliteStartTime) / 1000;
+    this.satelliteRecords.forEach((satellite) => {
+      const angle = satellite.phase + elapsed * satellite.speed;
+      satellite.object.position.copy(this.getSatellitePosition(satellite, angle));
+      satellite.object.lookAt(0, 0, 0);
+    });
+  }
+
   setupControls() {
     this.controls = new OrbitControls(
       this.camera,
@@ -499,6 +731,8 @@ class EarthVisualization {
         this.atmosphere.rotation.y += this.autoRotationSpeed;
       if (this.markerGroup)
         this.markerGroup.rotation.y += this.autoRotationSpeed;
+      if (this.satelliteGroup)
+        this.satelliteGroup.rotation.y += this.autoRotationSpeed;
     }
 
     // 星空缓慢旋转
@@ -508,6 +742,7 @@ class EarthVisualization {
 
     // 平滑重置动画
     this.updateResetAnimation(now);
+    this.updateFengyunSatellites(now);
 
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
